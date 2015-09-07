@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configuration>
+<context>
+<name>MW-automated-vagrant</name>
+<desc>context.desc</desc>
+<inscope>true</inscope>
+<incregexes>\Qhttp://127.0.0.1:8080\E.*</incregexes>
+<tech>
+<include>Db.MySQL</include>
+<include>Language.PHP</include>
+<include>OS.Linux</include>
+<include>WS.Apache</include>
+<exclude>Db</exclude>
+<exclude>Db.Firebird</exclude>
+<exclude>Db.HypersonicSQL</exclude>
+<exclude>Db.IBM DB2</exclude>
+<exclude>Db.Microsoft Access</exclude>
+<exclude>Db.Microsoft SQL Server</exclude>
+<exclude>Db.Oracle</exclude>
+<exclude>Db.PostgreSQL</exclude>
+<exclude>Db.SAP MaxDB</exclude>
+<exclude>Db.SQLite</exclude>
+<exclude>Db.Sybase</exclude>
+<exclude>Language</exclude>
+<exclude>Language.ASP</exclude>
+<exclude>Language.C</exclude>
+<exclude>OS</exclude>
+<exclude>OS.MacOS</exclude>
+<exclude>OS.Windows</exclude>
+<exclude>WS</exclude>
+<exclude>WS.IIS</exclude>
+<exclude>WS.Tomcat</exclude>
+</tech>
+<urlparser>
+<class>org.zaproxy.zap.model.StandardParameterParser</class>
+<config>{"kvps":"&amp;","kvs":"=","struct":[]}</config>
+</urlparser>
+<postparser>
+<class>org.zaproxy.zap.model.StandardParameterParser</class>
+<config>{"kvps":"&amp;","kvs":"=","struct":[]}</config>
+</postparser>
+<authentication>
+<type>0</type>
+</authentication>
+<forceduser>-1</forceduser>
+<session>
+<type>0</type>
+</session>
+<authorization>
+<type>0</type>
+<basic>
+<header/>
+<body/>
+<logic>AND</logic>
+<code>-1</code>
+</basic>
+</authorization>
+</context>
+</configuration>
