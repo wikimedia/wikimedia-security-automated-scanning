@@ -18,6 +18,7 @@ my @specs = (
 	Switch("--headless|-H"),
 	Switch("--help|-h"),
 	Switch("--verbose|-v"),
+	Switch("--use-xvfb|-x"),
 	Param("--zap-config|-c"),
 	Param("--zap-path|-p"),
 );
@@ -174,8 +175,9 @@ func rest_call ($command, $timeout) {
 
 func start_zap ($zap_path) {
 	verbose 'Starting ZAP.';
-	my $daemon = $opt->get_headless ? '-daemon' : '';
- 	sysrun("$zap_path $daemon &> /dev/null &");
+	my $xvfb = $opt->get_use_xvfb ? 'xvfb-run ' : '';
+	my $daemon = $opt->get_headless ? ' -daemon' : '';
+ 	sysrun($xvfb . $zap_path . $daemon . " &> /dev/null &");
 
 	# Loop here waiting for ZAP to fully initialize, as
 	# indicated by a successful result from version
