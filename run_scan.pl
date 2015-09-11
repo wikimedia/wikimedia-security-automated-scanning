@@ -191,6 +191,7 @@ func run_browser_tests (@paths) {
 	$ENV{'BROWSER_HTTP_PROXY'} = $proxy_location;
 	$ENV{'BROWSER'} = 'firefox';
 	$ENV{'HEADLESS'} = $opt->get_headless ? 'true' : 'false';
+	$ENV{'HEADLESS_REUSE'} = 'false';
 
 	foreach my $path (@paths) {
 		verbose "Running browser tests from $path.";
