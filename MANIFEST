@@ -1,0 +1,9 @@
+bin/verify_x-wmf_set.pl
+Build.PL
+MANIFEST			This list of files
+run_scan.pl
+ZAP/config.xml
+ZAP/contexts/MW-automated-beta.context
+ZAP/contexts/MW-automated-vagrant.context
+ZAP/policies/MW-automated.policy
+ZAP/scripts/httpsender/Add_Header.js
