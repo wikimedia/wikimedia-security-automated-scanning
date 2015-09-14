@@ -212,10 +212,18 @@ func main ($env) {
 			$context = 'MW-automated-vagrant.context';
 			$ENV{'MEDIAWIKI_ENVIRONMENT'} = 'mw-vagrant-host';
 		}
-		when (/^beta/) {
+		when (/^beta_en$/) {
 			$environment = $env;
 			$target = 'http://en.wikipedia.beta.wmflabs.org/';
-			$context = 'MW-automated-beta.context';
+			$context = 'MW-automated-beta-en.context';
+			$ENV{'MEDIAWIKI_ENVIRONMENT'} = 'beta';
+			$ENV{'MEDIAWIKI_USER'} = 'Scanner_user_0';
+			$ENV{'MEDIAWIKI_PASSWORD'} = 'default';
+		}
+		when (/^beta_en_mobile$/) {
+			$environment = $env;
+			$target = 'http://en.m.wikipedia.beta.wmflabs.org/';
+			$context = 'MW-automated-beta-en-mobile.context';
 			$ENV{'MEDIAWIKI_ENVIRONMENT'} = 'beta';
 			$ENV{'MEDIAWIKI_USER'} = 'Scanner_user_0';
 			$ENV{'MEDIAWIKI_PASSWORD'} = 'default';
@@ -243,7 +251,7 @@ func main ($env) {
 		when (/^vagrant$/) {
 			ask('Now run browsertests; hit Enter when complete.', "", undef);
 		}
-		when (/^(?:vagrant_auto|beta)$/) {
+		when (/(?:^vagrant_auto$|^beta)/) {
 			run_browser_tests($opt->get_browser_test_path);
 		}
 	}

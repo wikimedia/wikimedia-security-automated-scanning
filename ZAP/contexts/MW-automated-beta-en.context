@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <configuration>
 <context>
-<name>MW-automated-beta</name>
+<name>MW-automated-beta-en</name>
 <desc>context.desc</desc>
 <inscope>true</inscope>
 <incregexes>\Qhttp://en.wikipedia.beta.wmflabs.org\E.*</incregexes>
