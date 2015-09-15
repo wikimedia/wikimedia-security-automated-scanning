@@ -9,7 +9,8 @@ use Data::Dump::Streamer;
 use DateTime;
 use Getopt::Lucid qw( :all );
 use Mojo::UserAgent;
-use Sysadm::Install qw/ask blurt_atomic cd cdback sysrun tap/;
+use Proc::Background;
+use Sysadm::Install qw/ask blurt_atomic cd cdback tap/;
 use XML::Tiny::DOM;
 
 my @specs = (
@@ -36,7 +37,7 @@ catch {
 };
 
 # Global variables
-my ($context, $environment, $proxy_location, $session_name, $target);
+my ($context, $environment, $proxy_location, $session_name, $target, $zap_process);
 my $api_key = $zap_config->api->key;
 {
 	my $proxy = $zap_config->proxy;
@@ -177,7 +178,7 @@ func start_zap ($zap_path) {
 	verbose 'Starting ZAP.';
 	my $xvfb = $opt->get_use_xvfb ? 'xvfb-run -a ' : '';
 	my $daemon = $opt->get_headless ? ' -daemon' : '';
- 	sysrun($xvfb . $zap_path . $daemon . " &> /dev/null &");
+ 	$zap_process = Proc::Background->new($xvfb . $zap_path . $daemon . " &> /dev/null &");
 
 	# Loop here waiting for ZAP to fully initialize, as
 	# indicated by a successful result from version
@@ -266,15 +267,18 @@ func main ($env) {
 
 	$res = rest_call('home_directory');
 	my $report_path = $res->{'homeDirectory'} . "/$session_name";
+
 	$res = rest_call('xmlreport');
-
 	blurt_atomic( $res, "$report_path.xml", {utf8 => 1} );
-	$res = rest_call('htmlreport');
 
+	$res = rest_call('htmlreport');
 	blurt_atomic( $res, "$report_path.html", {utf8 => 1} );
 
 	$res = rest_call('shutdown');
-	# TODO verify that ZAP has shutdown by checking process table
+	while ( $zap_process->alive ) {
+		verbose 'Waiting for ZAP to shutdown';
+		sleep 1;
+	}
 }
 
 main( $ARGV[0] ? $ARGV[0] : '' );

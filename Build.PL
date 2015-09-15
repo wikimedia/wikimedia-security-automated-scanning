@@ -15,6 +15,7 @@ my $builder = Module::Build->new(
 		'Getopt::Lucid'        => 0,
 		'HTTP::Proxy'          => 0,
 		'Mojo::UserAgent'      => 0,
+		'Proc::Background'     => 0,
 		'Sysadm::Install'      => 0,
 		'XML::Tiny::DOM'       => 0,
 	},
