@@ -175,7 +175,7 @@ func rest_call ($command, $timeout) {
 
 func start_zap ($zap_path) {
 	verbose 'Starting ZAP.';
-	my $xvfb = $opt->get_use_xvfb ? 'xvfb-run ' : '';
+	my $xvfb = $opt->get_use_xvfb ? 'xvfb-run -a ' : '';
 	my $daemon = $opt->get_headless ? ' -daemon' : '';
  	sysrun($xvfb . $zap_path . $daemon . " &> /dev/null &");
 
