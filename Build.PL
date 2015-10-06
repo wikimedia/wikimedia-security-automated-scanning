@@ -10,6 +10,7 @@ my $builder = Module::Build->new(
 	dist_version  => '0.0.1',
 	requires      => {
 		'perl5i'               => 0,
+		'Config::Tiny'         => 0,
 		'Data::Dump::Streamer' => 0,
 		'DateTime'             => 0,
 		'Getopt::Lucid'        => 0,
