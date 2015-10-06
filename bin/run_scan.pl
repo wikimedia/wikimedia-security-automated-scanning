@@ -12,20 +12,26 @@ use Mojo::UserAgent;
 use Proc::Background;
 use Sysadm::Install qw/ask blurt_atomic cd cdback tap/;
 use XML::Tiny::DOM;
+use Config::Tiny;
 
 my @specs = (
 	List("--browser-test-path|-b"),
+	Param("--config|-c"),
 	Switch("--debug|-d"),
 	Switch("--headless|-H"),
 	Switch("--help|-h"),
 	Switch("--verbose|-v"),
 	Switch("--use-xvfb|-x"),
-	Param("--zap-config|-c"),
+	Param("--zap-config|-C"),
 	Param("--zap-path|-p"),
 );
 
 # Config and options variables
 my $opt = Getopt::Lucid->getopt( \@specs )->validate;
+my $wmf_config = Config::Tiny->read( $opt->get_config );
+if (!defined $wmf_config ) {
+	die 'Could not open WMF config file';
+}
 my $zap_config;
 try {
 	$zap_config = XML::Tiny::DOM->new(
@@ -218,16 +224,16 @@ func main ($env) {
 			$target = 'http://en.wikipedia.beta.wmflabs.org/';
 			$context = 'MW-automated-beta-en.context';
 			$ENV{'MEDIAWIKI_ENVIRONMENT'} = 'beta';
-			$ENV{'MEDIAWIKI_USER'} = 'Scanner_user_0';
-			$ENV{'MEDIAWIKI_PASSWORD'} = 'default';
+			$ENV{'MEDIAWIKI_USER'} = $wmf_config->{'cucumber'}->{'username'};
+			$ENV{'MEDIAWIKI_PASSWORD'} = $wmf_config->{'cucumber'}->{'password'};
 		}
 		when (/^beta_en_mobile$/) {
 			$environment = $env;
 			$target = 'http://en.m.wikipedia.beta.wmflabs.org/';
 			$context = 'MW-automated-beta-en-mobile.context';
 			$ENV{'MEDIAWIKI_ENVIRONMENT'} = 'beta';
-			$ENV{'MEDIAWIKI_USER'} = 'Scanner_user_0';
-			$ENV{'MEDIAWIKI_PASSWORD'} = 'default';
+			$ENV{'MEDIAWIKI_USER'} = $wmf_config->{'cucumber'}->{'username'};
+			$ENV{'MEDIAWIKI_PASSWORD'} = $wmf_config->{'cucumber'}->{'password'};
 		}
 		default {
 			die 'Invalid environment specified.';
